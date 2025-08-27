@@ -1,0 +1,11 @@
+export const twitterLink = "https://x.com/ValarStaking";
+export const telegramLink = "https://t.me/ValarStaking";
+export const discordLink = "https://discord.gg/vSKNznSywt";
+export const githubLink = "https://github.com/ValarStaking/algorand-decentralization";
+export const linkedInLink = "https://www.linkedin.com/company/valarstaking";
+export const valarEmailLink = "mailto:decentralization@valar.solutions";
+export const valarLink = "https://stake.valar.solutions/";
+export const valarSolutionsLink = "https://valar.solutions/";
+export const retiLink = "https://reti.nodely.io/";
+export const tinymanLink = "https://app.tinyman.org/liquid-stake";
+export const folksFinanceLink = "https://app.folks.finance/liquid-staking";
