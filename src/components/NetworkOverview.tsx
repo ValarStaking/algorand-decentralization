@@ -25,8 +25,10 @@ function NetworkOverview() {
     .map((stat) => stat.algo)
     .sort((a, b) => b - a);
 
-  // const stakeOnline = stats?.stakeOnline ?? 0;  // TO DO: Clarify potential difference
+  const stakeOnlineAPI = stats?.stakeOnline ?? 0;
   const stakeOnline = operatorsAlgosArray.reduce((sum, v) => sum + v, 0);
+  if (Math.abs(stakeOnlineAPI - stakeOnline) > 10 ** (6 + 6))
+    console.warn("Significant difference in online stake evaluation methods.");
   const stakeRate = stakeOnline / (stats?.supplyCirculating ?? 1);
 
   const selfOperatingNum = Array.from(participantsNonSmartContract.entries())
