@@ -2,6 +2,7 @@ import { ParticipantInfo, StakingStats } from "@/lib/types";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 
 import {
+  getCirculatingSupply,
   getNodeCount,
   getOnlineAccounts,
   getOnlineInfo,
@@ -23,9 +24,8 @@ export class StatsApi {
       const { accountsOnlineAll, stakeOnline } = await getOnlineInfo();
 
       // Get total and circulating supply
-      // TO DO: Find an API
       const supplyTotal = 10 * 10 ** (9 + 6); // TO DO: Correct for the officially burned ALGO
-      const supplyCirculating = 8.692 * 10 ** (9 + 6);
+      const supplyCirculating = await getCirculatingSupply();
 
       // Initialize context
       const ctx: StatsContext = {

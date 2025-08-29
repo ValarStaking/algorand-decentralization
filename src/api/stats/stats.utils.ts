@@ -1,6 +1,6 @@
 import { ALGO_MIN, ASA_ID_tALGO, ASA_ID_xALGO, MICRO_TO_ALGO } from "@/constants/general";
 import { NodelyNodesCount, NodelyParticipationOnline, NodelyRetiPoolsData, NodelyValarPerf } from "@/interfaces/nodely";
-import { nodelyStatsAxios } from "@/lib/axios";
+import { algorandFoundationStatsAxios, nodelyStatsAxios } from "@/lib/axios";
 import { AddressType, KnownAccount, LSTsType, OperatorId, ParticipantInfo } from "@/lib/types";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import Bottleneck from "bottleneck";
@@ -104,6 +104,15 @@ export async function getOnlineInfo(): Promise<{
     accountsOnlineAll,
     stakeOnline,
   };
+}
+
+export async function getCirculatingSupply(): Promise<number> {
+  const { data: supplyCirculating } = await algorandFoundationStatsAxios.get<number>(
+    `/v1/supply/circulating?unit=microalgo`,
+    props,
+  );
+
+  return supplyCirculating;
 }
 
 export async function getOnlineAccounts(ctx: StatsContext) {
@@ -272,9 +281,6 @@ export async function processReti(ctx: StatsContext) {
       const stakers = await limiter.schedule(() => fetchStakedInfoForPool(algorandClient, BigInt(pool.poolAppId)));
 
       if (!poolOwnerAddr) {
-        // For some reason, Nodely doesn't provide owner in all cases (just for validator 1)
-        // TO DO: Speak with Urtho
-        // console.log("Pool owner missing from Nodely (validator ID, pool ID): ", pool.validatorId, pool.poolId);
         // Fetch it from blockchain
         const validatorConfig = await limiter.schedule(() => fetchValidatorConfig(algorandClient, pool.validatorId));
         poolOwnerAddr = validatorConfig.owner;

@@ -13,6 +13,7 @@ interface ImportMetaEnv {
   readonly VITE_INDEXER_PORT: string;
 
   readonly VITE_NODELY_STATS: string;
+  readonly VITE_ALGORAND_FOUNDATION_STATS: string;
 
   readonly VITE_EXPLORER_ACCOUNT_URL: string;
   readonly VITE_EXPLORER_TRANSACTION_URL: string;

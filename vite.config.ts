@@ -28,6 +28,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""), // Remove '/api' prefix
       },
+      "/af": {
+        target: "https://metricsapi.algorand.foundation",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/af/, ""), // Remove '/af' prefix
+      },
     },
   },
   define: {

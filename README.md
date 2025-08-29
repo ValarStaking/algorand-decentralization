@@ -40,7 +40,6 @@ When identifying accounts, please provide proof for the claims made.
   - [CompaX](https://app.compx.io/staking-pools-pera) (cALGO)
   - [Messina](https://messina.one/liquid-staking) (mALGO)
   - [Pact](https://www.pact.fi/) LP pools
-- Add API for fetching circulating supply.
 - Add links to a blockchain explorer for users to simply find more details about accounts.
 - Expand the analysis by including NFDs as pseudonymous identities.
 - Identify more accounts.
