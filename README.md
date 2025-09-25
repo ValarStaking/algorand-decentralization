@@ -2,7 +2,7 @@
 
 This project provides an easy-to-understand analysis of Algorand decentralization.
 It analyzes the network's online stake.
-This includes native staking as well as third-party staking solutions like [Valar](https://stake.valar.solutions/) peer-to-peer staking, [Reti](https://reti.nodely.io/) pools, and liquid staking tokens (LSTs) from [Tinyman](https://app.tinyman.org/liquid-stake) (tALGO) and [Folks Finance](https://app.folks.finance/liquid-staking) (xALGO).
+This includes native staking as well as third-party staking solutions like [Valar](https://stake.valar.solutions/) peer-to-peer staking, [Reti](https://reti.valar.solutions/) pools, and liquid staking tokens (LSTs) from [Tinyman](https://app.tinyman.org/liquid-stake) (tALGO) and [Folks Finance](https://app.folks.finance/liquid-staking) (xALGO).
 
 Users can explore and gain insights into who is operating the stake and through what means, who controls the stake, and how many users each staking solution or a node operator has.
 This enables users to make informed decisions when selecting a staking solution or a node operator, contributing to increased network decentralization.
