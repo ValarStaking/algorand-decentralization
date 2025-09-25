@@ -6,6 +6,6 @@ export const linkedInLink = "https://www.linkedin.com/company/valarstaking";
 export const valarEmailLink = "mailto:decentralization@valar.solutions";
 export const valarLink = "https://stake.valar.solutions/";
 export const valarSolutionsLink = "https://valar.solutions/";
-export const retiLink = "https://reti.nodely.io/";
+export const retiLink = "https://reti.valar.solutions/";
 export const tinymanLink = "https://app.tinyman.org/liquid-stake";
 export const folksFinanceLink = "https://app.folks.finance/liquid-staking";
