@@ -18,6 +18,7 @@ export type StakingStats = {
   supplyCirculating: number;
   supplyTotal: number;
   participants: Map<string, ParticipantInfo>;
+  timestamp: number;
 };
 
 export type ParticipantInfo = {
@@ -69,3 +70,7 @@ export type DisplayData = {
   percentage: number;
   color: string;
 };
+
+export type RawParticipants =
+  | Record<string, ParticipantInfo>
+  | Array<[string, ParticipantInfo]>;

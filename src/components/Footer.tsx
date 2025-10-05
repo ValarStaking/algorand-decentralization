@@ -16,6 +16,8 @@ import { useState } from "react";
 
 import Disclaimer from "./Disclaimer";
 import LinkExt from "./LinkExt";
+import { useAppStore } from "@/store/appStore";
+import { Skeleton } from "./Loaders/Skeleton";
 
 const socials = [
   {
@@ -46,7 +48,11 @@ const socials = [
 ];
 
 const Footer = () => {
+  const stakingStatsQuery = useAppStore((s) => s.stakingStatsQuery);
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
+
+  const timestamp = stakingStatsQuery?.data?.timestamp
+  const date = !timestamp ? <Skeleton className="h-3 w-[64px]" /> : <>{(new Date(timestamp)).toLocaleDateString()}</>
 
   return (
     <>
@@ -63,26 +69,31 @@ const Footer = () => {
             </div>
 
             {/* Centered social icons */}
-            <div className="flex justify-center gap-6 lg:gap-x-10">
+            <div className="flex justify-center gap-6 lg:gap-x-7">
               {socials.map((item, index) => (
                 <LinkExt key={index} href={item.link}>
                   <img
                     src={item.icon}
                     alt={item.label}
-                    className="h-6 transition-all duration-300 sm:h-6 lg:h-8"
+                    className="h-6 transition-all duration-300 sm:h-6 lg:h-7"
                   />
                 </LinkExt>
               ))}
             </div>
 
             {/* Right-aligned on md+, centered on mobile */}
-            <div className="lg:text-right">
-              <button
-                onClick={() => setIsDisclaimerOpen(true)}
-                className="text-sm text-neutral-600 hover:text-neutral-800"
-              >
-                Disclaimer
-              </button>
+            <div className="lg:text-right w-full">
+              <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 justify-end">
+                <div className="flex flex-row gap-2 justify-center items-center text-sm text-neutral-600">
+                  Data last updated: {date}
+                </div>
+                <button
+                  onClick={() => setIsDisclaimerOpen(true)}
+                  className="text-sm text-neutral-600 hover:text-neutral-800"
+                >
+                  Disclaimer
+                </button>
+              </div>
             </div>
           </div>
         </div>

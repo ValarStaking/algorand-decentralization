@@ -1,7 +1,7 @@
 import { ALGO_MIN, ASA_ID_tALGO, ASA_ID_xALGO, MICRO_TO_ALGO } from "@/constants/general";
 import { NodelyNodesCount, NodelyParticipationOnline, NodelyRetiPoolsData, NodelyValarPerf } from "@/interfaces/nodely";
 import { algorandFoundationStatsAxios, nodelyStatsAxios } from "@/lib/axios";
-import { AddressType, KnownAccount, LSTsType, OperatorId, ParticipantInfo } from "@/lib/types";
+import { AddressType, KnownAccount, LSTsType, OperatorId, ParticipantInfo, RawParticipants, StakingStats } from "@/lib/types";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import Bottleneck from "bottleneck";
 import Papa from "papaparse";
@@ -324,7 +324,38 @@ export async function processReti(ctx: StatsContext) {
   );
 }
 
-export function serializeParticipants(participants: Map<string, ParticipantInfo>): string {
-  const obj = Object.fromEntries(participants);
+export function serializeStakingStats(stats: StakingStats): string {
+  const participantsObj: Record<string, ParticipantInfo> =
+    Object.fromEntries(stats.participants);
+
+  const obj = {
+    nodesTotal: stats.nodesTotal,
+    accountsOnlineAll: stats.accountsOnlineAll,
+    stakeOnline: stats.stakeOnline,
+    supplyCirculating: stats.supplyCirculating,
+    supplyTotal: stats.supplyTotal,
+    participants: participantsObj,
+    timestamp: stats.timestamp,
+  };
+
   return JSON.stringify(obj, null, 2);
+}
+
+function toParticipantsMap(input: RawParticipants | undefined): Map<string, ParticipantInfo> {
+  if (Array.isArray(input)) return new Map(input);               // if you saved as entries
+  if (input && typeof input === "object") return new Map(Object.entries(input)); // if you saved as object
+  return new Map();
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function parseStakingStats(raw: any): StakingStats {
+  return {
+    nodesTotal: Number(raw?.nodesTotal ?? 0),
+    accountsOnlineAll: Number(raw?.accountsOnlineAll ?? 0),
+    stakeOnline: Number(raw?.stakeOnline ?? 0),
+    supplyCirculating: Number(raw?.supplyCirculating ?? 0),
+    supplyTotal: Number(raw?.supplyTotal ?? 0),
+    participants: toParticipantsMap(raw?.participants as RawParticipants),
+    timestamp: Number(raw?.timestamp ?? 0),
+  };
 }
