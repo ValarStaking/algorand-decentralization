@@ -10,7 +10,7 @@ import {
   processLST,
   processReti,
   processValar,
-  serializeParticipants,
+  serializeStakingStats,
   StatsContext,
 } from "./stats.utils";
 
@@ -47,20 +47,24 @@ export class StatsApi {
       // Process Folks Finance xALGO holders
       await processLST(ctx, "Folks Finance");
 
-      // // Process Tinyman tALGO holders
+      // Process Tinyman tALGO holders
       await processLST(ctx, "Tinyman");
 
-      // Print participants for debugging
-      if (import.meta.env.VITE_ENVIRONMENT === "local") console.log(serializeParticipants(ctx.participants));
-
-      return {
+      // Create staking stats
+      const stakingStats: StakingStats = {
         nodesTotal,
         accountsOnlineAll,
         stakeOnline,
         supplyCirculating,
         supplyTotal,
         participants: ctx.participants,
+        timestamp: Date.now(),
       };
+
+      // Print stats for debugging
+      if (import.meta.env.VITE_ENVIRONMENT === "local") console.log(serializeStakingStats(stakingStats));
+
+      return stakingStats;
     } catch (err) {
       console.error("Error fetching staking stats ::", err);
       return undefined;

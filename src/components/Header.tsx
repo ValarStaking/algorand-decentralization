@@ -3,7 +3,7 @@ import Logo from "@/assets/logo/logo.svg?react";
 import { valarLink } from "@/constants/external-links";
 import { useAppStore } from "@/store/appStore";
 import { scrollToSection } from "@/utils/utils";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import LinkExt from "./LinkExt";
 import { Tooltip } from "./Tooltip";
@@ -11,22 +11,33 @@ import { Tooltip } from "./Tooltip";
 const Header = () => {
   const stakingStatsQuery = useAppStore((s) => s.stakingStatsQuery);
   const isLoading = !stakingStatsQuery || stakingStatsQuery?.isLoading;
+  const isFetching = !stakingStatsQuery || stakingStatsQuery?.isFetching;
   const isError = !isLoading && (stakingStatsQuery?.isError || !stakingStatsQuery.data);
   const hasData = !isLoading && !isError && stakingStatsQuery.data;
 
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
-  const [loadingText, setLoadingText] = useState("Loading");
+  const [loadingText, setLoadingText] = useState("Loading snapshot");
   const [showSubHeader, setShowSubHeader] = useState(false);
-  const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const getStatusIndicator = () => {
     if (isLoading) {
       return (
-        <Tooltip content={"Fetching data from blockchain. This can take up to 1 min."}>
+        <Tooltip content={"Loading last snapshot and fetching latest data from blockchain. This can take up to 1 min."}>
           <div className="flex items-center space-x-2 rounded-xl bg-warning-100 px-3 py-2">
             <div className="h-2 w-2 animate-pulse rounded-full bg-warning-400"></div>
-            <span className="w-[60px] justify-start text-sm font-medium text-warning-600">{loadingText}</span>
+            <span className="w-[116px] justify-start text-sm font-medium text-warning-600">{loadingText}</span>
+          </div>
+        </Tooltip>
+      );
+    }
+
+    if (isFetching) {
+      return (
+        <Tooltip content={"Fetching latest data from blockchain. This can take up to 1 min."}>
+          <div className="flex items-center space-x-2 rounded-xl bg-warning-100 px-3 py-2">
+            <div className="h-2 w-2 animate-pulse rounded-full bg-warning-400"></div>
+            <span className="w-[100px] justify-start text-sm font-medium text-warning-600">{loadingText}</span>
           </div>
         </Tooltip>
       );
@@ -53,35 +64,17 @@ const Header = () => {
   useEffect(() => {
     if (isLoading) {
       setShowSubHeader(true);
-      setLoadingText("Loading");
-
-      // Switch to "Analyzing data" after 5 seconds
-      loadingTimeoutRef.current = setTimeout(() => {
-        setLoadingText("Analyzing");
-      }, 5000);
+      setLoadingText("Loading snapshot");
+    } else if (isFetching) {
+      setShowSubHeader(true);
+      setLoadingText("Fetching latest");
     } else if (isError) {
       setShowSubHeader(true);
       setLoadingText("Error fetching");
-      if (loadingTimeoutRef.current) {
-        clearTimeout(loadingTimeoutRef.current);
-        loadingTimeoutRef.current = null;
-      }
     } else if (hasData) {
-      // Data loaded successfully, hide sub-header
-      if (loadingTimeoutRef.current) {
-        clearTimeout(loadingTimeoutRef.current);
-        loadingTimeoutRef.current = null;
-      }
       setShowSubHeader(false);
     }
-
-    return () => {
-      if (loadingTimeoutRef.current) {
-        clearTimeout(loadingTimeoutRef.current);
-        loadingTimeoutRef.current = null;
-      }
-    };
-  }, [isLoading, isError, hasData]);
+  }, [isLoading, isFetching, isError, hasData]);
 
   const navigationItems = [
     { id: "overview", label: "Overview", href: "#overview" },
@@ -187,9 +180,9 @@ const Header = () => {
               <div
                 className={`h-2 w-2 rounded-full ${
                   isError ? "bg-error-500" : "bg-warning-400"
-                } ${isLoading ? "animate-pulse" : ""}`}
+                } ${isLoading || isFetching ? "animate-pulse" : ""}`}
               ></div>
-              <span className={`text-sm font-medium ${isLoading ? "animate-pulse" : ""} sm:text-base`}>
+              <span className={`text-sm font-medium ${isLoading || isFetching ? "animate-pulse" : ""} sm:text-base`}>
                 {loadingText + " data"}
               </span>
             </div>
