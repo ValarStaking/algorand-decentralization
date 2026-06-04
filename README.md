@@ -56,4 +56,6 @@ All analysis is based on best-effort methodologies and the data available.
 Unless explicitly identified through public data or known affiliations, accounts are assumed to be owned and operated by distinct, anonymous entities.
 Users are encouraged to independently verify findings and consider the assumptions and limitations when interpreting the results.
 
-© 2025 Valar Solutions GmbH
+This work has been performed with support from the Algorand Foundation xGov Program.
+
+© 2026 Valar Solutions GmbH
