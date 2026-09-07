@@ -64,7 +64,7 @@ const Footer = () => {
             <div className="flex flex-row lg:text-left justify-center lg:justify-start">
               <p className="text-sm text-neutral-600 mr-1">App v{packageJson.version}</p>
               <LinkExt href={valarSolutionsLink} className="text-sm text-neutral-600 hover:text-neutral-800">
-                &copy; 2025 Valar Solutions GmbH
+                &copy; 2026 Valar Solutions GmbH
               </LinkExt>
             </div>
 
